@@ -113,7 +113,7 @@ class FlushJobTestBase : public testing::Test {
     db_options_.env = env_;
     db_options_.fs = fs_;
     db_options_.db_paths.emplace_back(dbname_,
-                                      std::numeric_limits<uint64_t>::max());
+                                      (size_t)std::numeric_limits<uint64_t>::max());
     db_options_.statistics = CreateDBStatistics();
 
     cf_options_.comparator = ucmp_;
@@ -166,7 +166,7 @@ TEST_F(FlushJobTest, Empty) {
   SnapshotChecker* snapshot_checker = nullptr;  // not relavant
   FlushJob flush_job(dbname_, versions_->GetColumnFamilySet()->GetDefault(),
                      db_options_, *cfd->GetLatestMutableCFOptions(),
-                     std::numeric_limits<uint64_t>::max() /* memtable_id */,
+                     (size_t)std::numeric_limits<uint64_t>::max() /* memtable_id */,
                      env_options_, versions_.get(), &mutex_, &shutting_down_,
                      {}, kMaxSequenceNumber, snapshot_checker, &job_context,
                      nullptr, nullptr, nullptr, kNoCompression, nullptr,
@@ -253,7 +253,7 @@ TEST_F(FlushJobTest, NonEmpty) {
   FlushJob flush_job(
       dbname_, versions_->GetColumnFamilySet()->GetDefault(), db_options_,
       *cfd->GetLatestMutableCFOptions(),
-      std::numeric_limits<uint64_t>::max() /* memtable_id */, env_options_,
+      (size_t)std::numeric_limits<uint64_t>::max() /* memtable_id */, env_options_,
       versions_.get(), &mutex_, &shutting_down_, {}, kMaxSequenceNumber,
       snapshot_checker, &job_context, nullptr, nullptr, nullptr, kNoCompression,
       db_options_.statistics.get(), &event_logger, true,
@@ -451,7 +451,7 @@ TEST_F(FlushJobTest, FlushMemtablesMultipleColumnFamilies) {
     ASSERT_EQ(smallest_seqs[k], file_meta.fd.smallest_seqno);
     ASSERT_EQ(largest_seqs[k], file_meta.fd.largest_seqno);
     // Verify that imm is empty
-    ASSERT_EQ(std::numeric_limits<uint64_t>::max(),
+    ASSERT_EQ((size_t)std::numeric_limits<uint64_t>::max(),
               all_cfds[k]->imm()->GetEarliestMemTableID());
     ASSERT_EQ(0, all_cfds[k]->imm()->GetLatestMemTableID());
     ++k;
@@ -518,7 +518,7 @@ TEST_F(FlushJobTest, Snapshots) {
   FlushJob flush_job(
       dbname_, versions_->GetColumnFamilySet()->GetDefault(), db_options_,
       *cfd->GetLatestMutableCFOptions(),
-      std::numeric_limits<uint64_t>::max() /* memtable_id */, env_options_,
+      (size_t)std::numeric_limits<uint64_t>::max() /* memtable_id */, env_options_,
       versions_.get(), &mutex_, &shutting_down_, snapshots, kMaxSequenceNumber,
       snapshot_checker, &job_context, nullptr, nullptr, nullptr, kNoCompression,
       db_options_.statistics.get(), &event_logger, true,
@@ -651,10 +651,10 @@ TEST_F(FlushJobTimestampTest, AllKeysExpired) {
   JobContext job_context(0);
   EventLogger event_logger(db_options_.info_log.get());
   std::string full_history_ts_low;
-  PutFixed64(&full_history_ts_low, std::numeric_limits<uint64_t>::max());
+  PutFixed64(&full_history_ts_low, (size_t)std::numeric_limits<uint64_t>::max());
   FlushJob flush_job(
       dbname_, cfd, db_options_, *cfd->GetLatestMutableCFOptions(),
-      std::numeric_limits<uint64_t>::max() /* memtable_id */, env_options_,
+      (size_t)std::numeric_limits<uint64_t>::max() /* memtable_id */, env_options_,
       versions_.get(), &mutex_, &shutting_down_, snapshots, kMaxSequenceNumber,
       snapshot_checker, &job_context, nullptr, nullptr, nullptr, kNoCompression,
       db_options_.statistics.get(), &event_logger, true,
@@ -707,7 +707,7 @@ TEST_F(FlushJobTimestampTest, NoKeyExpired) {
   PutFixed64(&full_history_ts_low, 0);
   FlushJob flush_job(
       dbname_, cfd, db_options_, *cfd->GetLatestMutableCFOptions(),
-      std::numeric_limits<uint64_t>::max() /* memtable_id */, env_options_,
+      (size_t)std::numeric_limits<uint64_t>::max() /* memtable_id */, env_options_,
       versions_.get(), &mutex_, &shutting_down_, snapshots, kMaxSequenceNumber,
       snapshot_checker, &job_context, nullptr, nullptr, nullptr, kNoCompression,
       db_options_.statistics.get(), &event_logger, true,

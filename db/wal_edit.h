@@ -47,7 +47,7 @@ class WalMetadata {
   // The size of WAL is unknown, used when the WAL is not synced yet or is
   // empty.
   constexpr static uint64_t kUnknownWalSize =
-      std::numeric_limits<uint64_t>::max();
+      (size_t)std::numeric_limits<uint64_t>::max();
 
   // Size of the most recently synced WAL in bytes.
   uint64_t synced_size_bytes_ = kUnknownWalSize;

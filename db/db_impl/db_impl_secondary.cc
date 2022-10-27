@@ -250,7 +250,7 @@ Status DBImplSecondary::RecoverLogFiles(
           if (seq_of_batch <= seq) {
             continue;
           }
-          auto curr_log_num = std::numeric_limits<uint64_t>::max();
+          auto curr_log_num = (size_t)std::numeric_limits<uint64_t>::max();
           if (cfd_to_current_log_.count(cfd) > 0) {
             curr_log_num = cfd_to_current_log_[cfd];
           }
@@ -258,7 +258,7 @@ Status DBImplSecondary::RecoverLogFiles(
           // earlier WAL, then we need to seal the memtable, add it to the
           // immutable memtable list and create a new active memtable.
           if (!cfd->mem()->IsEmpty() &&
-              (curr_log_num == std::numeric_limits<uint64_t>::max() ||
+              (curr_log_num == (size_t)std::numeric_limits<uint64_t>::max() ||
                curr_log_num != log_number)) {
             const MutableCFOptions mutable_cf_options =
                 *cfd->GetLatestMutableCFOptions();

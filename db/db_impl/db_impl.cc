@@ -542,7 +542,7 @@ void DBImpl::CancelAllBackgroundWork(bool wait) {
 
 Status DBImpl::MaybeReleaseTimestampedSnapshotsAndCheck() {
   size_t num_snapshots = 0;
-  ReleaseTimestampedSnapshotsOlderThan(std::numeric_limits<uint64_t>::max(),
+  ReleaseTimestampedSnapshotsOlderThan((size_t)std::numeric_limits<uint64_t>::max(),
                                        &num_snapshots);
 
   // If there is unreleased snapshot, fail the close call
@@ -841,7 +841,7 @@ Status DBImpl::StartPeriodicTaskScheduler() {
 
 Status DBImpl::RegisterRecordSeqnoTimeWorker() {
 #ifndef ROCKSDB_LITE
-  uint64_t min_time_duration = std::numeric_limits<uint64_t>::max();
+  uint64_t min_time_duration = (size_t)std::numeric_limits<uint64_t>::max();
   uint64_t max_time_duration = std::numeric_limits<uint64_t>::min();
   {
     InstrumentedMutexLock l(&mutex_);
@@ -856,7 +856,7 @@ Status DBImpl::RegisterRecordSeqnoTimeWorker() {
         max_time_duration = std::max(preserve_time_duration, max_time_duration);
       }
     }
-    if (min_time_duration == std::numeric_limits<uint64_t>::max()) {
+    if (min_time_duration == (size_t)std::numeric_limits<uint64_t>::max()) {
       seqno_time_mapping_.Resize(0, 0);
     } else {
       seqno_time_mapping_.Resize(min_time_duration, max_time_duration);
@@ -864,7 +864,7 @@ Status DBImpl::RegisterRecordSeqnoTimeWorker() {
   }
 
   uint64_t seqno_time_cadence = 0;
-  if (min_time_duration != std::numeric_limits<uint64_t>::max()) {
+  if (min_time_duration != (size_t)std::numeric_limits<uint64_t>::max()) {
     seqno_time_cadence =
         min_time_duration / SeqnoToTimeMapping::kMaxSeqnoTimePairsPerCF;
   }
@@ -3466,7 +3466,7 @@ const Snapshot* DBImpl::GetSnapshotForWriteConflictBoundary() {
 
 std::pair<Status, std::shared_ptr<const Snapshot>>
 DBImpl::CreateTimestampedSnapshot(SequenceNumber snapshot_seq, uint64_t ts) {
-  assert(ts != std::numeric_limits<uint64_t>::max());
+  assert(ts != (size_t)std::numeric_limits<uint64_t>::max());
 
   auto ret = CreateTimestampedSnapshotImpl(snapshot_seq, ts, /*lock=*/true);
   return ret;
@@ -3567,7 +3567,7 @@ DBImpl::CreateTimestampedSnapshotImpl(SequenceNumber snapshot_seq, uint64_t ts,
   }
 
   std::shared_ptr<const SnapshotImpl> latest =
-      timestamped_snapshots_.GetSnapshot(std::numeric_limits<uint64_t>::max());
+      timestamped_snapshots_.GetSnapshot((size_t)std::numeric_limits<uint64_t>::max());
 
   // If there is already a latest timestamped snapshot, then we need to do some
   // checks.
@@ -4839,7 +4839,7 @@ Status DBImpl::DeleteObsoleteOptionsFiles() {
     FileType type;
     if (ParseFileName(filename, &file_number, &type) && type == kOptionsFile) {
       options_filenames.insert(
-          {std::numeric_limits<uint64_t>::max() - file_number,
+          {(size_t)std::numeric_limits<uint64_t>::max() - file_number,
            GetName() + "/" + filename});
     }
   }
@@ -5846,7 +5846,7 @@ Status DBImpl::ReserveFileNumbersBeforeIngestion(
 
 Status DBImpl::GetCreationTimeOfOldestFile(uint64_t* creation_time) {
   if (mutable_db_options_.max_open_files == -1) {
-    uint64_t oldest_time = std::numeric_limits<uint64_t>::max();
+    uint64_t oldest_time = (size_t)std::numeric_limits<uint64_t>::max();
     for (auto cfd : *versions_->GetColumnFamilySet()) {
       if (!cfd->IsDropped()) {
         uint64_t ctime;

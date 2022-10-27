@@ -163,7 +163,7 @@ void HistogramWindowingImpl::SwapHistoryBucket() {
       }
 
       if (stats_.min() == stats_to_drop.min()) {
-        uint64_t new_min = std::numeric_limits<uint64_t>::max();
+        uint64_t new_min = (size_t)std::numeric_limits<uint64_t>::max();
         for (unsigned int i = 0; i < num_windows_; i++) {
           if (i != next_window) {
             uint64_t m = window_stats_[i].min();

@@ -91,7 +91,7 @@ class FileChecksumListImpl : public FileChecksumList {
       checksum_map_;
 };
 
-// If manifest_file_size < std::numeric_limits<uint64_t>::max(), only use
+// If manifest_file_size < (size_t)std::numeric_limits<uint64_t>::max(), only use
 // that length prefix of the manifest file.
 Status GetFileChecksumsFromManifest(Env* src_env, const std::string& abs_path,
                                     uint64_t manifest_file_size,

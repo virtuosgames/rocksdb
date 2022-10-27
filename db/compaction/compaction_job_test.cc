@@ -238,7 +238,7 @@ class CompactionJobTestBase : public testing::Test {
     db_options_.env = env_;
     db_options_.fs = fs_;
     db_options_.db_paths.emplace_back(dbname_,
-                                      std::numeric_limits<uint64_t>::max());
+                                      (size_t)std::numeric_limits<uint64_t>::max());
     cf_options_.comparator = ucmp_;
     if (table_type_ == TableTypeForTest::kBlockBasedTable) {
       BlockBasedTableOptions table_options;
@@ -253,7 +253,7 @@ class CompactionJobTestBase : public testing::Test {
   std::string GenerateFileName(uint64_t file_number) {
     FileMetaData meta;
     std::vector<DbPath> db_paths;
-    db_paths.emplace_back(dbname_, std::numeric_limits<uint64_t>::max());
+    db_paths.emplace_back(dbname_, (size_t)std::numeric_limits<uint64_t>::max());
     meta.fd = FileDescriptor(file_number, 0, 0);
     return TableFileName(db_paths, meta.fd.GetNumber(), meta.fd.GetPathId());
   }
@@ -2218,7 +2218,7 @@ TEST_F(CompactionJobTimestampTest, AllKeysExpired) {
   constexpr int input_level = 0;
   const auto& files = cfd_->current()->storage_info()->LevelFiles(input_level);
 
-  full_history_ts_low_ = encode_u64_ts_(std::numeric_limits<uint64_t>::max());
+  full_history_ts_low_ = encode_u64_ts_((size_t)std::numeric_limits<uint64_t>::max());
   RunCompaction({files}, {input_level}, {expected_results});
 }
 

@@ -45,7 +45,7 @@ class WalManagerTest : public testing::Test {
     ASSERT_OK(env_->CreateDirIfMissing(dbname_));
     ASSERT_OK(env_->CreateDirIfMissing(ArchivalDirectory(dbname_)));
     db_options_.db_paths.emplace_back(dbname_,
-                                      std::numeric_limits<uint64_t>::max());
+                                      (size_t)std::numeric_limits<uint64_t>::max());
     db_options_.wal_dir = dbname_;
     db_options_.env = env_.get();
     db_options_.fs = env_->GetFileSystem();

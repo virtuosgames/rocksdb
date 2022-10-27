@@ -118,7 +118,7 @@ DBOptions SanitizeOptions(const std::string& dbname, const DBOptions& src,
   }
 
   if (result.db_paths.size() == 0) {
-    result.db_paths.emplace_back(dbname, std::numeric_limits<uint64_t>::max());
+    result.db_paths.emplace_back(dbname, (size_t)std::numeric_limits<uint64_t>::max());
   } else if (result.wal_dir.empty()) {
     // Use dbname as default
     result.wal_dir = dbname;
@@ -1480,7 +1480,7 @@ Status DBImpl::WriteLevel0TableForRecovery(int job_id, ColumnFamilyData* cfd,
   assert(cfd);
   assert(cfd->imm());
   // The immutable memtable list must be empty.
-  assert(std::numeric_limits<uint64_t>::max() ==
+  assert((size_t)std::numeric_limits<uint64_t>::max() ==
          cfd->imm()->GetEarliestMemTableID());
 
   const uint64_t start_micros = immutable_db_options_.clock->NowMicros();

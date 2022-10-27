@@ -1156,7 +1156,7 @@ class VersionSetTestBase {
         dbname_, &db_options_, env_options_, table_cache_.get(),
         &write_buffer_manager_, &write_controller_, nullptr);
     db_options_.db_paths.emplace_back(dbname_,
-                                      std::numeric_limits<uint64_t>::max());
+                                      (size_t)std::numeric_limits<uint64_t>::max());
   }
 
   virtual ~VersionSetTestBase() {

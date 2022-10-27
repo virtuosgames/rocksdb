@@ -97,7 +97,7 @@ struct StressTestIterator : public InternalIterator {
 
   bool MaybeFail() {
     if (rnd->Next() >=
-        static_cast<double>(std::numeric_limits<uint64_t>::max()) *
+        static_cast<double>((size_t)std::numeric_limits<uint64_t>::max()) *
             error_probability) {
       return false;
     }
@@ -115,7 +115,7 @@ struct StressTestIterator : public InternalIterator {
 
   void MaybeMutate() {
     if (rnd->Next() >=
-        static_cast<double>(std::numeric_limits<uint64_t>::max()) *
+        static_cast<double>((size_t)std::numeric_limits<uint64_t>::max()) *
             mutation_probability) {
       return;
     }
@@ -129,7 +129,7 @@ struct StressTestIterator : public InternalIterator {
         hide_probability = 1;
       }
       bool do_hide = rnd->Next() <
-                     static_cast<double>(std::numeric_limits<uint64_t>::max()) *
+                     static_cast<double>((size_t)std::numeric_limits<uint64_t>::max()) *
                          hide_probability;
       if (do_hide) {
         // Hide a random entry.

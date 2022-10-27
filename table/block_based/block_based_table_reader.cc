@@ -3011,7 +3011,7 @@ Status BlockBasedTable::DumpDataBlocks(std::ostream& out_stream) {
     return s;
   }
 
-  uint64_t datablock_size_min = std::numeric_limits<uint64_t>::max();
+  uint64_t datablock_size_min = (size_t)std::numeric_limits<uint64_t>::max();
   uint64_t datablock_size_max = 0;
   uint64_t datablock_size_sum = 0;
 

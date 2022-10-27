@@ -777,7 +777,7 @@ std::shared_ptr<BlobFile> BlobDBImpl::FindBlobFileLocked(
   std::shared_ptr<BlobFile> tmp = std::make_shared<BlobFile>();
   tmp->SetHasTTL(true);
   tmp->expiration_range_ = std::make_pair(expiration, 0);
-  tmp->file_number_ = std::numeric_limits<uint64_t>::max();
+  tmp->file_number_ = (size_t)std::numeric_limits<uint64_t>::max();
 
   auto citr = open_ttl_files_.equal_range(tmp);
   if (citr.first == open_ttl_files_.end()) {
@@ -1240,7 +1240,7 @@ void BlobDBImpl::GetCompactionContext(BlobCompactionContext* context,
                          live_imm_non_ttl_blob_files_.size());
     context_gc->cutoff_file_number = it != live_imm_non_ttl_blob_files_.end()
                                          ? it->first
-                                         : std::numeric_limits<uint64_t>::max();
+                                         : (size_t)std::numeric_limits<uint64_t>::max();
   }
 }
 

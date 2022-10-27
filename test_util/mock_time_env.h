@@ -33,14 +33,14 @@ class MockSystemClock : public SystemClockWrapper {
   virtual uint64_t NowMicros() override { return current_time_us_; }
 
   virtual uint64_t NowNanos() override {
-    assert(current_time_us_ <= std::numeric_limits<uint64_t>::max() / 1000);
+    assert(current_time_us_ <= (size_t)std::numeric_limits<uint64_t>::max() / 1000);
     return current_time_us_ * 1000;
   }
 
   uint64_t RealNowMicros() { return target_->NowMicros(); }
 
   void SetCurrentTime(uint64_t time_sec) {
-    assert(time_sec < std::numeric_limits<uint64_t>::max() / kMicrosInSecond);
+    assert(time_sec < (size_t)std::numeric_limits<uint64_t>::max() / kMicrosInSecond);
     assert(time_sec * kMicrosInSecond >= current_time_us_);
     current_time_us_ = time_sec * kMicrosInSecond;
   }

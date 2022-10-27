@@ -154,7 +154,7 @@ struct PersistentCacheConfig {
   //
   // Logical cache size
   //
-  uint64_t cache_size = std::numeric_limits<uint64_t>::max();
+  uint64_t cache_size = (size_t)std::numeric_limits<uint64_t>::max();
 
   // cache-file-size
   //

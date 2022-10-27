@@ -20,7 +20,7 @@ struct FileMetaData;
 class VersionEditHandlerBase {
  public:
   explicit VersionEditHandlerBase()
-      : max_manifest_read_size_(std::numeric_limits<uint64_t>::max()) {}
+      : max_manifest_read_size_((size_t)std::numeric_limits<uint64_t>::max()) {}
 
   virtual ~VersionEditHandlerBase() {}
 

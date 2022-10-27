@@ -218,7 +218,7 @@ class BlockBasedTableIterator : public InternalIteratorBase<Slice> {
   PinnedIteratorsManager* pinned_iters_mgr_;
   DataBlockIter block_iter_;
   const SliceTransform* prefix_extractor_;
-  uint64_t prev_block_offset_ = std::numeric_limits<uint64_t>::max();
+  uint64_t prev_block_offset_ = (size_t)std::numeric_limits<uint64_t>::max();
   BlockCacheLookupContext lookup_context_;
 
   BlockPrefetcher block_prefetcher_;

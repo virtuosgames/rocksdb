@@ -694,7 +694,7 @@ TEST_F(OptionsUtilTest, WalDirSettings) {
   // Open a DB with no wal_dir but a db_path==dbname_.  The wal_dir should be
   // empty
   options.wal_dir = "";
-  options.db_paths.emplace_back(dbname_, std::numeric_limits<uint64_t>::max());
+  options.db_paths.emplace_back(dbname_, (size_t)std::numeric_limits<uint64_t>::max());
   ASSERT_OK(DB::Open(options, dbname_, &db));
   delete db;
   ASSERT_OK(LoadLatestOptions(dbname_, options.env, &db_opts, &cf_descs));
@@ -703,7 +703,7 @@ TEST_F(OptionsUtilTest, WalDirSettings) {
   // Open a DB with no wal_dir==dbname_ and db_path==dbname_.  The wal_dir
   // should be empty
   options.wal_dir = dbname_ + "/";
-  options.db_paths.emplace_back(dbname_, std::numeric_limits<uint64_t>::max());
+  options.db_paths.emplace_back(dbname_, (size_t)std::numeric_limits<uint64_t>::max());
   ASSERT_OK(DB::Open(options, dbname_, &db));
   delete db;
   ASSERT_OK(LoadLatestOptions(dbname_, options.env, &db_opts, &cf_descs));
@@ -714,7 +714,7 @@ TEST_F(OptionsUtilTest, WalDirSettings) {
   options.wal_dir = "";
   options.db_paths.clear();
   options.db_paths.emplace_back(dbname_ + "_0",
-                                std::numeric_limits<uint64_t>::max());
+                                (size_t)std::numeric_limits<uint64_t>::max());
   ASSERT_OK(DB::Open(options, dbname_, &db));
   delete db;
   ASSERT_OK(LoadLatestOptions(dbname_, options.env, &db_opts, &cf_descs));

@@ -971,19 +971,19 @@ IOStatus PosixMmapReadableFile::Read(uint64_t offset, size_t n,
 void PosixMmapReadableFile::Hint(AccessPattern pattern) {
   switch (pattern) {
     case kNormal:
-      Madvise(mmapped_region_, length_, POSIX_MADV_NORMAL);
+      Madvise(mmapped_region_, length_, POSIX_FADV_NORMAL);
       break;
     case kRandom:
-      Madvise(mmapped_region_, length_, POSIX_MADV_RANDOM);
+      Madvise(mmapped_region_, length_, POSIX_FADV_RANDOM);
       break;
     case kSequential:
-      Madvise(mmapped_region_, length_, POSIX_MADV_SEQUENTIAL);
+      Madvise(mmapped_region_, length_, POSIX_FADV_SEQUENTIAL);
       break;
     case kWillNeed:
-      Madvise(mmapped_region_, length_, POSIX_MADV_WILLNEED);
+      Madvise(mmapped_region_, length_, POSIX_FADV_WILLNEED);
       break;
     case kWontNeed:
-      Madvise(mmapped_region_, length_, POSIX_MADV_DONTNEED);
+      Madvise(mmapped_region_, length_, POSIX_FADV_DONTNEED);
       break;
     default:
       assert(false);

@@ -109,7 +109,7 @@ Status DBImpl::TEST_CompactRange(int level, const Slice* begin,
   return RunManualCompaction(
       cfd, level, output_level, CompactRangeOptions(), begin, end, true,
       disallow_trivial_move,
-      std::numeric_limits<uint64_t>::max() /*max_file_num_to_ignore*/,
+      (size_t)std::numeric_limits<uint64_t>::max() /*max_file_num_to_ignore*/,
       "" /*trim_ts*/);
 }
 

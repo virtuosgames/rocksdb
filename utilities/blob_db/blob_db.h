@@ -26,7 +26,7 @@ namespace blob_db {
 // The factory needs to be moved to include/rocksdb/utilities to allow
 // users to use blob DB.
 
-constexpr uint64_t kNoExpiration = std::numeric_limits<uint64_t>::max();
+constexpr uint64_t kNoExpiration = (size_t)std::numeric_limits<uint64_t>::max();
 
 struct BlobDBOptions {
   // Name of the directory under the base DB where blobs will be stored. Using
@@ -126,7 +126,7 @@ class BlobDB : public StackableDB {
   }
 
   // Put with expiration. Key with expiration time equal to
-  // std::numeric_limits<uint64_t>::max() means the key don't expire.
+  // (size_t)std::numeric_limits<uint64_t>::max() means the key don't expire.
   virtual Status PutUntil(const WriteOptions& options, const Slice& key,
                           const Slice& value, uint64_t expiration) = 0;
   virtual Status PutUntil(const WriteOptions& options,

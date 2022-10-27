@@ -1503,7 +1503,7 @@ Status CompactionJob::FinishCompactionOutputFile(
             sub_compact->compaction->MinInputFileOldestAncesterTime(
                 &(meta->smallest), &(meta->largest));
         if (refined_oldest_ancester_time !=
-            std::numeric_limits<uint64_t>::max()) {
+            (size_t)std::numeric_limits<uint64_t>::max()) {
           meta->oldest_ancester_time = refined_oldest_ancester_time;
         }
       }
@@ -1807,7 +1807,7 @@ Status CompactionJob::OpenCompactionOutputFile(SubcompactionState* sub_compact,
       sub_compact->compaction->MinInputFileOldestAncesterTime(
           sub_compact->start.has_value() ? &tmp_start : nullptr,
           sub_compact->end.has_value() ? &tmp_end : nullptr);
-  if (oldest_ancester_time == std::numeric_limits<uint64_t>::max()) {
+  if (oldest_ancester_time == (size_t)std::numeric_limits<uint64_t>::max()) {
     oldest_ancester_time = current_time;
   }
 

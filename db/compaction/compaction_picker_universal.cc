@@ -1399,7 +1399,7 @@ Compaction* UniversalCompactionBuilder::PickPeriodicCompaction() {
 
 uint64_t UniversalCompactionBuilder::GetMaxOverlappingBytes() const {
   if (!mutable_cf_options_.compaction_options_universal.incremental) {
-    return std::numeric_limits<uint64_t>::max();
+    return (size_t)std::numeric_limits<uint64_t>::max();
   } else {
     // Try to align cutting boundary with files at the next level if the
     // file isn't end up with 1/2 of target size, or it would overlap

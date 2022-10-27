@@ -146,7 +146,7 @@ class PartitionedIndexIterator : public InternalIteratorBase<IndexValue> {
   // True if block_iter_ is initialized and points to the same block
   // as index iterator.
   bool block_iter_points_to_real_block_;
-  uint64_t prev_block_offset_ = std::numeric_limits<uint64_t>::max();
+  uint64_t prev_block_offset_ = (size_t)std::numeric_limits<uint64_t>::max();
   BlockCacheLookupContext lookup_context_;
   BlockPrefetcher block_prefetcher_;
 

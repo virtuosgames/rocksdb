@@ -1466,7 +1466,7 @@ IOStatus BackupEngineImpl::CreateNewBackupWithMetadata(
               false /* shared_checksum */, options.progress_callback, contents);
         } /* create_file_cb */,
         &sequence_number,
-        options.flush_before_backup ? 0 : std::numeric_limits<uint64_t>::max(),
+        options.flush_before_backup ? 0 : (size_t)std::numeric_limits<uint64_t>::max(),
         compare_checksum));
     if (io_s.ok()) {
       new_backup->SetSequenceNumber(sequence_number);
@@ -2042,7 +2042,7 @@ IOStatus BackupEngineImpl::CopyOrCreateFile(
 
   // Check if size limit is set. if not, set it to very big number
   if (size_limit == 0) {
-    size_limit = std::numeric_limits<uint64_t>::max();
+    size_limit = (size_t)std::numeric_limits<uint64_t>::max();
   }
 
   io_s = dst_env->GetFileSystem()->NewWritableFile(dst, dst_file_options,
@@ -2207,7 +2207,7 @@ IOStatus BackupEngineImpl::AddBackupFileWorkItem(
         return io_s;
       }
     }
-    if (size_bytes == std::numeric_limits<uint64_t>::max()) {
+    if (size_bytes == (size_t)std::numeric_limits<uint64_t>::max()) {
       return IOStatus::NotFound("File missing: " + src_path);
     }
     // dst_relative depends on the following conditions:
@@ -2384,7 +2384,7 @@ IOStatus BackupEngineImpl::ReadFileAndComputeChecksum(
   }
   uint32_t checksum_value = 0;
   if (size_limit == 0) {
-    size_limit = std::numeric_limits<uint64_t>::max();
+    size_limit = (size_t)std::numeric_limits<uint64_t>::max();
   }
 
   std::unique_ptr<SequentialFileReader> src_reader;

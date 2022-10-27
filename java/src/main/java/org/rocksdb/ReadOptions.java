@@ -736,7 +736,7 @@ public class ReadOptions extends RocksObject {
    * reading through MultiGet. Once the cumulative value size exceeds this
    * soft limit then all the remaining keys are returned with status Aborted.
    *
-   * Default: {@code std::numeric_limits<uint64_t>::max()}
+   * Default: {@code (size_t)std::numeric_limits<uint64_t>::max()}
    * @return actual valueSizeSofLimit
    */
   public long valueSizeSoftLimit() {
@@ -749,7 +749,7 @@ public class ReadOptions extends RocksObject {
    * reading through MultiGet. Once the cumulative value size exceeds this
    * soft limit then all the remaining keys are returned with status Aborted.
    *
-   * Default: {@code std::numeric_limits<uint64_t>::max()}
+   * Default: {@code (size_t)std::numeric_limits<uint64_t>::max()}
    *
    * @param valueSizeSoftLimit the maximum cumulative value size of the keys
    * @return the reference to the current ReadOptions
