@@ -664,7 +664,7 @@ uint64_t MemTableList::ApproximateOldestKeyTime() const {
   if (!current_->memlist_.empty()) {
     return current_->memlist_.back()->ApproximateOldestKeyTime();
   }
-  return std::numeric_limits<uint64_t>::max();
+  return (size_t)std::numeric_limits<uint64_t>::max();
 }
 
 void MemTableList::InstallNewVersion() {

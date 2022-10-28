@@ -187,7 +187,7 @@ class KeyGenerator {
         return values_[next_++];
     }
     assert(false);
-    return std::numeric_limits<uint64_t>::max();
+    return (size_t)std::numeric_limits<uint64_t>::max();
   }
 
  private:

@@ -5010,7 +5010,7 @@ class Benchmark {
           return values_[next_++];
       }
       assert(false);
-      return std::numeric_limits<uint64_t>::max();
+      return (size_t)std::numeric_limits<uint64_t>::max();
     }
 
     // Only available for UNIQUE_RANDOM mode.
@@ -8372,7 +8372,7 @@ class Benchmark {
 
     std::unique_ptr<StatsHistoryIterator> shi;
     Status s =
-        db->GetStatsHistory(0, std::numeric_limits<uint64_t>::max(), &shi);
+        db->GetStatsHistory(0, (size_t)std::numeric_limits<uint64_t>::max(), &shi);
     if (!s.ok()) {
       fprintf(stdout, "%s\n", s.ToString().c_str());
       return;

@@ -369,7 +369,7 @@ class MemTableList {
   uint64_t GetEarliestMemTableID() const {
     auto& memlist = current_->memlist_;
     if (memlist.empty()) {
-      return std::numeric_limits<uint64_t>::max();
+      return (size_t)std::numeric_limits<uint64_t>::max();
     }
     return memlist.back()->GetID();
   }

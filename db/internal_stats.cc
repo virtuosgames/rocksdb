@@ -1352,7 +1352,7 @@ bool InternalStats::HandleEstimateOldestKeyTime(uint64_t* value, DBImpl* /*db*/,
   if (!s.ok()) {
     return false;
   }
-  *value = std::numeric_limits<uint64_t>::max();
+  *value = (size_t)std::numeric_limits<uint64_t>::max();
   for (auto& p : collection) {
     *value = std::min(*value, p.second->oldest_key_time);
     if (*value == 0) {
@@ -1363,7 +1363,7 @@ bool InternalStats::HandleEstimateOldestKeyTime(uint64_t* value, DBImpl* /*db*/,
     *value = std::min({cfd_->mem()->ApproximateOldestKeyTime(),
                        cfd_->imm()->ApproximateOldestKeyTime(), *value});
   }
-  return *value > 0 && *value < std::numeric_limits<uint64_t>::max();
+  return *value > 0 && *value < (size_t)std::numeric_limits<uint64_t>::max();
 }
 
 Cache* InternalStats::GetBlockCacheForStats() {

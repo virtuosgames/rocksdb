@@ -82,13 +82,13 @@ std::unique_ptr<PersistentTieredCache> NewTieredCache(
 // create block cache
 std::unique_ptr<PersistentCacheTier> NewBlockCache(
     Env* env, const std::string& path,
-    const uint64_t max_size = std::numeric_limits<uint64_t>::max(),
+    const uint64_t max_size = (size_t)std::numeric_limits<uint64_t>::max(),
     const bool enable_direct_writes = false) {
   const uint32_t max_file_size = static_cast<uint32_t>(12 * 1024 * 1024 * kStressFactor);
   auto log = std::make_shared<ConsoleLogger>();
   PersistentCacheConfig opt(env, path, max_size, log);
   opt.cache_file_size = max_file_size;
-  opt.max_write_pipeline_backlog_size = std::numeric_limits<uint64_t>::max();
+  opt.max_write_pipeline_backlog_size = (size_t)std::numeric_limits<uint64_t>::max();
   opt.enable_direct_writes = enable_direct_writes;
   std::unique_ptr<PersistentCacheTier> scache(new BlockCacheTier(opt));
   Status s = scache->Open();
@@ -100,12 +100,12 @@ std::unique_ptr<PersistentCacheTier> NewBlockCache(
 std::unique_ptr<PersistentTieredCache> NewTieredCache(
     Env* env, const std::string& path, const uint64_t max_volatile_cache_size,
     const uint64_t max_block_cache_size =
-        std::numeric_limits<uint64_t>::max()) {
+        (size_t)std::numeric_limits<uint64_t>::max()) {
   const uint32_t max_file_size = static_cast<uint32_t>(12 * 1024 * 1024 * kStressFactor);
   auto log = std::make_shared<ConsoleLogger>();
   auto opt = PersistentCacheConfig(env, path, max_block_cache_size, log);
   opt.cache_file_size = max_file_size;
-  opt.max_write_pipeline_backlog_size = std::numeric_limits<uint64_t>::max();
+  opt.max_write_pipeline_backlog_size = (size_t)std::numeric_limits<uint64_t>::max();
   // create tier out of the two caches
   auto cache = NewTieredCache(max_volatile_cache_size, opt);
   return cache;
@@ -125,7 +125,7 @@ PersistentCacheTierTest::PersistentCacheTierTest()
 // Block cache tests
 TEST_F(PersistentCacheTierTest, DISABLED_BlockCacheInsertWithFileCreateError) {
   cache_ = NewBlockCache(Env::Default(), path_,
-                         /*size=*/std::numeric_limits<uint64_t>::max(),
+                         /*size=*/(size_t)std::numeric_limits<uint64_t>::max(),
                          /*direct_writes=*/ false);
   ROCKSDB_NAMESPACE::SyncPoint::GetInstance()->SetCallBack(
       "BlockCacheTier::NewCacheFile:DeleteDir", OnDeleteDir);
@@ -145,7 +145,7 @@ TEST_F(PersistentCacheTierTest, DISABLED_BasicTest) {
   RunInsertTest(/*nthreads=*/1, /*max_keys=*/1024);
 
   cache_ = NewBlockCache(Env::Default(), path_,
-                         /*size=*/std::numeric_limits<uint64_t>::max(),
+                         /*size=*/(size_t)std::numeric_limits<uint64_t>::max(),
                          /*direct_writes=*/true);
   RunInsertTest(/*nthreads=*/1, /*max_keys=*/1024);
 
@@ -185,7 +185,7 @@ TEST_F(PersistentCacheTierTest, DISABLED_BlockCacheInsert) {
       for (auto max_keys :
            {10 * 1024 * kStressFactor, 1 * 1024 * 1024 * kStressFactor}) {
         cache_ = NewBlockCache(Env::Default(), path_,
-                               /*size=*/std::numeric_limits<uint64_t>::max(),
+                               /*size=*/(size_t)std::numeric_limits<uint64_t>::max(),
                                direct_writes);
         RunInsertTest(nthreads, static_cast<size_t>(max_keys));
       }

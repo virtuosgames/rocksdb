@@ -32,7 +32,7 @@ uint64_t DBImpl::MinObsoleteSstNumberToKeep() {
   if (!pending_outputs_.empty()) {
     return *pending_outputs_.begin();
   }
-  return std::numeric_limits<uint64_t>::max();
+  return (size_t)std::numeric_limits<uint64_t>::max();
 }
 
 Status DBImpl::DisableFileDeletions() {
@@ -794,7 +794,7 @@ uint64_t PrecomputeMinLogNumberToKeepNon2PC(
   assert(!cfds_to_flush.empty());
   assert(cfds_to_flush.size() == edit_lists.size());
 
-  uint64_t min_log_number_to_keep = std::numeric_limits<uint64_t>::max();
+  uint64_t min_log_number_to_keep = (size_t)std::numeric_limits<uint64_t>::max();
   for (const auto& edit_list : edit_lists) {
     uint64_t log = 0;
     for (const auto& e : edit_list) {
@@ -806,7 +806,7 @@ uint64_t PrecomputeMinLogNumberToKeepNon2PC(
       min_log_number_to_keep = std::min(min_log_number_to_keep, log);
     }
   }
-  if (min_log_number_to_keep == std::numeric_limits<uint64_t>::max()) {
+  if (min_log_number_to_keep == (size_t)std::numeric_limits<uint64_t>::max()) {
     min_log_number_to_keep = cfds_to_flush[0]->GetLogNumber();
     for (size_t i = 1; i < cfds_to_flush.size(); i++) {
       min_log_number_to_keep =

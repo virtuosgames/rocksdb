@@ -1817,7 +1817,7 @@ uint64_t Version::GetSstFilesSize() {
 }
 
 void Version::GetCreationTimeOfOldestFile(uint64_t* creation_time) {
-  uint64_t oldest_time = std::numeric_limits<uint64_t>::max();
+  uint64_t oldest_time = (size_t)std::numeric_limits<uint64_t>::max();
   for (int level = 0; level < storage_info_.num_non_empty_levels_; level++) {
     for (FileMetaData* meta : storage_info_.LevelFiles(level)) {
       assert(meta->fd.table_reader != nullptr);
@@ -4367,7 +4367,7 @@ void VersionStorageInfo::CalculateBaseBytes(const ImmutableOptions& ioptions,
 
     // Prefill every level's max bytes to disallow compaction from there.
     for (int i = 0; i < num_levels_; i++) {
-      level_max_bytes_[i] = std::numeric_limits<uint64_t>::max();
+      level_max_bytes_[i] = (size_t)std::numeric_limits<uint64_t>::max();
     }
 
     if (max_level_size == 0) {

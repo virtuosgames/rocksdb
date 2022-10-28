@@ -32,7 +32,7 @@ DEFINE_int32(nthread_write, 1, "Insert threads");
 DEFINE_int32(nthread_read, 1, "Lookup threads");
 DEFINE_string(path, "/tmp/microbench/blkcache", "Path for cachefile");
 DEFINE_string(log_path, "/tmp/log", "Path for the log file");
-DEFINE_uint64(cache_size, std::numeric_limits<uint64_t>::max(), "Cache size");
+DEFINE_uint64(cache_size, (size_t)std::numeric_limits<uint64_t>::max(), "Cache size");
 DEFINE_int32(iosize, 4 * 1024, "Read IO size");
 DEFINE_int32(writer_iosize, 4 * 1024, "File writer IO size");
 DEFINE_int32(writer_qdepth, 1, "File writer qdepth");
@@ -45,7 +45,7 @@ DEFINE_int32(volatile_cache_pct, 10, "Percentage of cache in memory tier.");
 namespace ROCKSDB_NAMESPACE {
 
 std::unique_ptr<PersistentCacheTier> NewVolatileCache() {
-  assert(FLAGS_cache_size != std::numeric_limits<uint64_t>::max());
+  assert(FLAGS_cache_size != (size_t)std::numeric_limits<uint64_t>::max());
   std::unique_ptr<PersistentCacheTier> pcache(
       new VolatileCacheTier(FLAGS_cache_size));
   return pcache;
@@ -62,7 +62,7 @@ std::unique_ptr<PersistentCacheTier> NewBlockCache() {
   opt.writer_dispatch_size = FLAGS_writer_iosize;
   opt.writer_qdepth = FLAGS_writer_qdepth;
   opt.pipeline_writes = FLAGS_enable_pipelined_writes;
-  opt.max_write_pipeline_backlog_size = std::numeric_limits<uint64_t>::max();
+  opt.max_write_pipeline_backlog_size = (size_t)std::numeric_limits<uint64_t>::max();
   std::unique_ptr<PersistentCacheTier> cache(new BlockCacheTier(opt));
   Status status = cache->Open();
   return cache;
@@ -100,7 +100,7 @@ std::unique_ptr<PersistentTieredCache> NewTieredCache() {
   opt.writer_dispatch_size = FLAGS_writer_iosize;
   opt.writer_qdepth = FLAGS_writer_qdepth;
   opt.pipeline_writes = FLAGS_enable_pipelined_writes;
-  opt.max_write_pipeline_backlog_size = std::numeric_limits<uint64_t>::max();
+  opt.max_write_pipeline_backlog_size = (size_t)std::numeric_limits<uint64_t>::max();
   return NewTieredCache(FLAGS_cache_size * pct, opt);
 }
 

@@ -491,9 +491,9 @@ TEST_F(DBOptionsTest, EnableAutoCompactionAndTriggerStall) {
       options.level0_stop_writes_trigger = std::numeric_limits<int>::max();
       options.level0_slowdown_writes_trigger = std::numeric_limits<int>::max();
       options.hard_pending_compaction_bytes_limit =
-          std::numeric_limits<uint64_t>::max();
+          (size_t)std::numeric_limits<uint64_t>::max();
       options.soft_pending_compaction_bytes_limit =
-          std::numeric_limits<uint64_t>::max();
+          (size_t)std::numeric_limits<uint64_t>::max();
       options.env = env_;
 
       DestroyAndReopen(options);

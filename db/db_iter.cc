@@ -1556,7 +1556,7 @@ void DBIter::SeekToFirst() {
   // Don't use iter_::Seek() if we set a prefix extractor
   // because prefix seek will be used.
   if (!expect_total_order_inner_iter()) {
-    max_skip_ = std::numeric_limits<uint64_t>::max();
+    max_skip_ = (size_t)std::numeric_limits<uint64_t>::max();
   }
   status_ = Status::OK();
   // if iterator is empty, this status_ could be unchecked.
@@ -1627,7 +1627,7 @@ void DBIter::SeekToLast() {
   // Don't use iter_::Seek() if we set a prefix extractor
   // because prefix seek will be used.
   if (!expect_total_order_inner_iter()) {
-    max_skip_ = std::numeric_limits<uint64_t>::max();
+    max_skip_ = (size_t)std::numeric_limits<uint64_t>::max();
   }
   status_ = Status::OK();
   // if iterator is empty, this status_ could be unchecked.

@@ -121,7 +121,7 @@ struct Reader {
       ROCKSDB_NAMESPACE::ReadOptions options;
       options.tailing = true;
       if (FLAGS_iterate_upper_bound) {
-        state.upper_bound = Key(shard, std::numeric_limits<uint64_t>::max());
+        state.upper_bound = Key(shard, (size_t)std::numeric_limits<uint64_t>::max());
         state.upper_bound_slice = ROCKSDB_NAMESPACE::Slice(
             (const char*)&state.upper_bound, sizeof(state.upper_bound));
         options.iterate_upper_bound = &state.upper_bound_slice;

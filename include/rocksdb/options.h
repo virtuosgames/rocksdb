@@ -1648,7 +1648,7 @@ struct ReadOptions {
   // reading through MultiGet. Once the cumulative value size exceeds this
   // soft limit then all the remaining keys are returned with status Aborted.
   //
-  // Default: std::numeric_limits<uint64_t>::max()
+  // Default: (size_t)std::numeric_limits<uint64_t>::max()
   uint64_t value_size_soft_limit;
 
   // For iterators, RocksDB does auto-readahead on noticing more than two
@@ -1829,7 +1829,7 @@ struct CompactionOptions {
 
   CompactionOptions()
       : compression(kSnappyCompression),
-        output_file_size_limit(std::numeric_limits<uint64_t>::max()),
+        output_file_size_limit((size_t)std::numeric_limits<uint64_t>::max()),
         max_subcompactions(0) {}
 };
 

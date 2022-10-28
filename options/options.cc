@@ -697,7 +697,7 @@ ReadOptions::ReadOptions()
       iter_start_ts(nullptr),
       deadline(std::chrono::microseconds::zero()),
       io_timeout(std::chrono::microseconds::zero()),
-      value_size_soft_limit(std::numeric_limits<uint64_t>::max()),
+      value_size_soft_limit((size_t)std::numeric_limits<uint64_t>::max()),
       adaptive_readahead(false),
       async_io(false),
       optimize_multiget_for_io(true) {}
@@ -723,7 +723,7 @@ ReadOptions::ReadOptions(bool cksum, bool cache)
       iter_start_ts(nullptr),
       deadline(std::chrono::microseconds::zero()),
       io_timeout(std::chrono::microseconds::zero()),
-      value_size_soft_limit(std::numeric_limits<uint64_t>::max()),
+      value_size_soft_limit((size_t)std::numeric_limits<uint64_t>::max()),
       adaptive_readahead(false),
       async_io(false),
       optimize_multiget_for_io(true) {}

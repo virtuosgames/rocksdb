@@ -27,7 +27,7 @@ HistogramBucketMapper::HistogramBucketMapper() {
   bucketValues_ = {1, 2};
   double bucket_val = static_cast<double>(bucketValues_.back());
   while ((bucket_val = 1.5 * bucket_val) <=
-         static_cast<double>(std::numeric_limits<uint64_t>::max())) {
+         static_cast<double>((size_t)std::numeric_limits<uint64_t>::max())) {
     bucketValues_.push_back(static_cast<uint64_t>(bucket_val));
     // Extracts two most significant digits to make histogram buckets more
     // human-readable. E.g., 172 becomes 170.

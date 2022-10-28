@@ -95,7 +95,7 @@ inline bool IsExtendedValueType(ValueType t) {
 static const SequenceNumber kMaxSequenceNumber = ((0x1ull << 56) - 1);
 
 static const SequenceNumber kDisableGlobalSequenceNumber =
-    std::numeric_limits<uint64_t>::max();
+    (size_t)std::numeric_limits<uint64_t>::max();
 
 constexpr uint64_t kNumInternalBytes = 8;
 

@@ -152,7 +152,7 @@ bool ParseIntArg(const char* arg, const std::string arg_name,
 int SSTDumpTool::Run(int argc, char const* const* argv, Options options) {
   std::string env_uri, fs_uri;
   const char* dir_or_file = nullptr;
-  uint64_t read_num = std::numeric_limits<uint64_t>::max();
+  uint64_t read_num = (size_t)std::numeric_limits<uint64_t>::max();
   std::string command;
 
   char junk;

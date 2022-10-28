@@ -1278,7 +1278,7 @@ uint64_t CompactionIterator::ComputeBlobGarbageCollectionCutoffFileNumber(
       compaction->blob_garbage_collection_age_cutoff() * blob_files.size());
 
   if (cutoff_index >= blob_files.size()) {
-    return std::numeric_limits<uint64_t>::max();
+    return (size_t)std::numeric_limits<uint64_t>::max();
   }
 
   const auto& meta = blob_files[cutoff_index];

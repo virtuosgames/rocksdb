@@ -263,7 +263,7 @@ Cache::CacheItemHelper helper3(SizeFn, SaveToFn, deleter3);
 
 class CacheBench {
   static constexpr uint64_t kHundredthUint64 =
-      std::numeric_limits<uint64_t>::max() / 100U;
+      (size_t)std::numeric_limits<uint64_t>::max() / 100U;
 
  public:
   CacheBench()

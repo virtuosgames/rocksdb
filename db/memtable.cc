@@ -112,7 +112,7 @@ MemTable::MemTable(const InternalKeyComparator& cmp,
       clock_(ioptions.clock),
       insert_with_hint_prefix_extractor_(
           ioptions.memtable_insert_with_hint_prefix_extractor.get()),
-      oldest_key_time_(std::numeric_limits<uint64_t>::max()),
+      oldest_key_time_((size_t)std::numeric_limits<uint64_t>::max()),
       atomic_flush_seqno_(kMaxSequenceNumber),
       approximate_memory_usage_(0) {
   UpdateFlushState();
@@ -242,7 +242,7 @@ void MemTable::UpdateFlushState() {
 
 void MemTable::UpdateOldestKeyTime() {
   uint64_t oldest_key_time = oldest_key_time_.load(std::memory_order_relaxed);
-  if (oldest_key_time == std::numeric_limits<uint64_t>::max()) {
+  if (oldest_key_time == (size_t)std::numeric_limits<uint64_t>::max()) {
     int64_t current_time = 0;
     auto s = clock_->GetCurrentTime(&current_time);
     if (s.ok()) {

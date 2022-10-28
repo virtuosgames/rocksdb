@@ -4679,7 +4679,7 @@ TEST_F(DBCompactionTest, LevelPeriodicCompactionWithCompactionFilters) {
   for (CompactionFilterType comp_filter_type :
        {kUseCompactionFilter, kUseCompactionFilterFactory}) {
     // Assert that periodic compactions are not enabled.
-    ASSERT_EQ(std::numeric_limits<uint64_t>::max() - 1,
+    ASSERT_EQ((size_t)std::numeric_limits<uint64_t>::max() - 1,
               options.periodic_compaction_seconds);
 
     if (comp_filter_type == kUseCompactionFilter) {

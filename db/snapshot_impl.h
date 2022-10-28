@@ -77,7 +77,7 @@ class SnapshotList {
 
   SnapshotImpl* New(SnapshotImpl* s, SequenceNumber seq, uint64_t unix_time,
                     bool is_write_conflict_boundary,
-                    uint64_t ts = std::numeric_limits<uint64_t>::max()) {
+                    uint64_t ts = (size_t)std::numeric_limits<uint64_t>::max()) {
     s->number_ = seq;
     s->unix_time_ = unix_time;
     s->timestamp_ = ts;
@@ -184,7 +184,7 @@ class TimestampedSnapshotList {
   explicit TimestampedSnapshotList() = default;
 
   std::shared_ptr<const SnapshotImpl> GetSnapshot(uint64_t ts) const {
-    if (ts == std::numeric_limits<uint64_t>::max() && !snapshots_.empty()) {
+    if (ts == (size_t)std::numeric_limits<uint64_t>::max() && !snapshots_.empty()) {
       auto it = snapshots_.rbegin();
       assert(it != snapshots_.rend());
       return it->second;

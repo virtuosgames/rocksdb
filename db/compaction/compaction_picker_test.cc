@@ -69,7 +69,7 @@ class CompactionPickerTestBase : public testing::Test {
     fifo_options_.max_table_files_size = 1;
     mutable_cf_options_.RefreshDerivedOptions(ioptions_);
     ioptions_.cf_paths.emplace_back("dummy",
-                                    std::numeric_limits<uint64_t>::max());
+                                    (size_t)std::numeric_limits<uint64_t>::max());
   }
 
   ~CompactionPickerTestBase() override {}
@@ -3212,7 +3212,7 @@ TEST_F(CompactionPickerTest, UniversalMarkedManualCompaction) {
           cf_name_, mutable_cf_options_, mutable_db_options_, vstorage_.get(),
           ColumnFamilyData::kCompactAllLevels, 6, CompactRangeOptions(),
           nullptr, nullptr, &manual_end, &manual_conflict,
-          std::numeric_limits<uint64_t>::max(), ""));
+          (size_t)std::numeric_limits<uint64_t>::max(), ""));
 
   ASSERT_TRUE(compaction);
 

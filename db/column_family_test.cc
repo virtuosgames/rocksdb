@@ -1002,7 +1002,7 @@ TEST_P(ColumnFamilyTest, FlushTest) {
 
 // Makes sure that obsolete log files get deleted
 TEST_P(ColumnFamilyTest, LogDeletionTest) {
-  db_options_.max_total_wal_size = std::numeric_limits<uint64_t>::max();
+  db_options_.max_total_wal_size = (size_t)std::numeric_limits<uint64_t>::max();
   column_family_options_.arena_block_size = 4 * 1024;
   column_family_options_.write_buffer_size = 128000;  // 128KB
   Open();
@@ -1111,7 +1111,7 @@ TEST_P(ColumnFamilyTest, OpenNonexistentColumnFamily) {
 // Makes sure that obsolete log files get deleted
 TEST_P(ColumnFamilyTest, DifferentWriteBufferSizes) {
   // disable flushing stale column families
-  db_options_.max_total_wal_size = std::numeric_limits<uint64_t>::max();
+  db_options_.max_total_wal_size = (size_t)std::numeric_limits<uint64_t>::max();
   Open();
   CreateColumnFamilies({"one", "two", "three"});
   ColumnFamilyOptions default_cf, one, two, three;
@@ -3320,7 +3320,7 @@ TEST_P(ColumnFamilyTest, DefaultCfPathsTest) {
   // column family.
   ColumnFamilyOptions cf_opt1, cf_opt2;
   cf_opt1.cf_paths.emplace_back(dbname_ + "_one_1",
-                                std::numeric_limits<uint64_t>::max());
+                                (size_t)std::numeric_limits<uint64_t>::max());
   CreateColumnFamilies({"one", "two"}, {cf_opt1, cf_opt2});
   Reopen({ColumnFamilyOptions(), cf_opt1, cf_opt2});
 
@@ -3345,9 +3345,9 @@ TEST_P(ColumnFamilyTest, MultipleCFPathsTest) {
   // Configure Column family specific paths.
   ColumnFamilyOptions cf_opt1, cf_opt2;
   cf_opt1.cf_paths.emplace_back(dbname_ + "_one_1",
-                                std::numeric_limits<uint64_t>::max());
+                                (size_t)std::numeric_limits<uint64_t>::max());
   cf_opt2.cf_paths.emplace_back(dbname_ + "_two_1",
-                                std::numeric_limits<uint64_t>::max());
+                                (size_t)std::numeric_limits<uint64_t>::max());
   CreateColumnFamilies({"one", "two"}, {cf_opt1, cf_opt2});
   Reopen({ColumnFamilyOptions(), cf_opt1, cf_opt2});
 

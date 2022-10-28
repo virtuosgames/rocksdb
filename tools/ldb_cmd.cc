@@ -725,7 +725,7 @@ void LDBCommand::OverrideBaseOptions() {
 
   if (options_.db_paths.size() == 0) {
     options_.db_paths.emplace_back(db_path_,
-                                   std::numeric_limits<uint64_t>::max());
+                                   (size_t)std::numeric_limits<uint64_t>::max());
   }
 
   OverrideBaseCFOptions(static_cast<ColumnFamilyOptions*>(&options_));
@@ -3615,7 +3615,7 @@ void DumpSstFile(Options options, std::string filename, bool output_hex,
       options, filename, Temperature::kUnknown,
       2 * 1024 * 1024 /* readahead_size */,
       /* verify_checksum */ false, output_hex, decode_blob_index);
-  Status st = dumper.ReadSequential(true, std::numeric_limits<uint64_t>::max(),
+  Status st = dumper.ReadSequential(true, (size_t)std::numeric_limits<uint64_t>::max(),
                                     !from_key.empty(), from_key,
                                     !to_key.empty(), to_key);
   if (!st.ok()) {
