@@ -44,6 +44,10 @@ project(rocksdb
   HOMEPAGE_URL https://rocksdb.org/
   LANGUAGES CXX C ASM)
 
+#RJZ:For mobile platform
+option(RANDROID "if android is target platform" off)
+option(RIOS "ios is target platform" off)
+
 if(POLICY CMP0042)
   cmake_policy(SET CMP0042 NEW)
 endif()
@@ -81,9 +85,11 @@ if ($ENV{CIRCLECI})
   add_definitions(-DCIRCLECI)
 endif()
 
-if( NOT DEFINED CMAKE_CXX_STANDARD )
+#RJZ
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+# if( NOT DEFINED CMAKE_CXX_STANDARD )
   set(CMAKE_CXX_STANDARD 17)
-endif()
+# endif()
 
 include(CMakeDependentOption)
 
@@ -283,8 +289,9 @@ else()
   else()
     if(CMAKE_SYSTEM_PROCESSOR MATCHES "^s390x" AND NOT HAS_S390X_MARCH_NATIVE)
       set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=z196")
-    elseif(NOT CMAKE_SYSTEM_PROCESSOR MATCHES "^(powerpc|ppc)64" AND NOT HAS_ARMV8_CRC)
-      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=armv7-a")
+    #RJZ
+    elseif(NOT CMAKE_SYSTEM_PROCESSOR MATCHES "^(powerpc|ppc)64" AND NOT HAS_ARMV8_CRC AND NOT RANDROID)
+      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native")
     endif()
   endif()
 endif()
@@ -359,7 +366,8 @@ option(FAIL_ON_WARNINGS "Treat compile warnings as errors" ON)
 if(FAIL_ON_WARNINGS)
   if(MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /WX")
-  else() # assume GCC
+  #RJZ
+  else(NOT RIOS) # assume GCC
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror")
   endif()
 endif()
@@ -1617,5 +1625,5 @@ endif()
 
 message(STATUS ${CMAKE_CXX_FLAGS})
 
-set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -Os -Wall -s")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Os -Wall -s")
+# set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -Os -S")
+# set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Os -S")

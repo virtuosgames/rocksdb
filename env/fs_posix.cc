@@ -173,7 +173,8 @@ class PosixFileSystem : public FileSystem {
                                "Direct I/O not supported in RocksDB lite");
 #endif  // !ROCKSDB_LITE
 #if !defined(OS_MACOSX) && !defined(OS_OPENBSD) && !defined(OS_SOLARIS)
-      flags |= O_DIRECT;
+        //RJZ:change O_DIRECT with F_NOCACHE
+      flags |= F_NOCACHE;
       TEST_SYNC_POINT_CALLBACK("NewSequentialFile:O_DIRECT", &flags);
 #endif
     }
@@ -228,7 +229,8 @@ class PosixFileSystem : public FileSystem {
                                "Direct I/O not supported in RocksDB lite");
 #endif  // !ROCKSDB_LITE
 #if !defined(OS_MACOSX) && !defined(OS_OPENBSD) && !defined(OS_SOLARIS)
-      flags |= O_DIRECT;
+        //RJZ:
+      flags |= F_NOCACHE;
       TEST_SYNC_POINT_CALLBACK("NewRandomAccessFile:O_DIRECT", &flags);
 #endif
     }
@@ -306,7 +308,8 @@ class PosixFileSystem : public FileSystem {
 #endif  // ROCKSDB_LITE
       flags |= O_WRONLY;
 #if !defined(OS_MACOSX) && !defined(OS_OPENBSD) && !defined(OS_SOLARIS)
-      flags |= O_DIRECT;
+        //RJZ:
+      flags |= F_NOCACHE;
 #endif
       TEST_SYNC_POINT_CALLBACK("NewWritableFile:O_DIRECT", &flags);
     } else if (options.use_mmap_writes) {
@@ -398,7 +401,9 @@ class PosixFileSystem : public FileSystem {
 #endif  // !ROCKSDB_LITE
       flags |= O_WRONLY;
 #if !defined(OS_MACOSX) && !defined(OS_OPENBSD) && !defined(OS_SOLARIS)
-      flags |= O_DIRECT;
+#define _GNU_SOURCE
+        //RJZ:
+      flags |= F_NOCACHE;
 #endif
       TEST_SYNC_POINT_CALLBACK("NewWritableFile:O_DIRECT", &flags);
     } else if (options.use_mmap_writes) {
