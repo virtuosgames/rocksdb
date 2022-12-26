@@ -173,7 +173,6 @@ class PosixFileSystem : public FileSystem {
                                "Direct I/O not supported in RocksDB lite");
 #endif  // !ROCKSDB_LITE
 #if !defined(OS_MACOSX) && !defined(OS_OPENBSD) && !defined(OS_SOLARIS)
-        //RJZ:change O_DIRECT with F_NOCACHE
       flags |= F_NOCACHE;
       TEST_SYNC_POINT_CALLBACK("NewSequentialFile:O_DIRECT", &flags);
 #endif
@@ -229,7 +228,6 @@ class PosixFileSystem : public FileSystem {
                                "Direct I/O not supported in RocksDB lite");
 #endif  // !ROCKSDB_LITE
 #if !defined(OS_MACOSX) && !defined(OS_OPENBSD) && !defined(OS_SOLARIS)
-        //RJZ:
       flags |= F_NOCACHE;
       TEST_SYNC_POINT_CALLBACK("NewRandomAccessFile:O_DIRECT", &flags);
 #endif
@@ -308,7 +306,6 @@ class PosixFileSystem : public FileSystem {
 #endif  // ROCKSDB_LITE
       flags |= O_WRONLY;
 #if !defined(OS_MACOSX) && !defined(OS_OPENBSD) && !defined(OS_SOLARIS)
-        //RJZ:
       flags |= F_NOCACHE;
 #endif
       TEST_SYNC_POINT_CALLBACK("NewWritableFile:O_DIRECT", &flags);
@@ -402,7 +399,6 @@ class PosixFileSystem : public FileSystem {
       flags |= O_WRONLY;
 #if !defined(OS_MACOSX) && !defined(OS_OPENBSD) && !defined(OS_SOLARIS)
 #define _GNU_SOURCE
-        //RJZ:
       flags |= F_NOCACHE;
 #endif
       TEST_SYNC_POINT_CALLBACK("NewWritableFile:O_DIRECT", &flags);
